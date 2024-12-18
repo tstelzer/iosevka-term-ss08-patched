@@ -13,7 +13,7 @@
                 };
 
                 installPhase = ''
-                    install -m444 -Dt $out/share/fonts/truetype/Iosevka-Term-SS08 *.ttc
+                    install -m444 -Dt $out/share/fonts/truetype/${pname} $src/**/*.ttc
                 '';
 
                 meta = with nixpkgs.lib; {
