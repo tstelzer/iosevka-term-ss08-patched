@@ -1,11 +1,10 @@
 {
     description = "Iosevka Term SS08 Nerd Font";
-    outputs = { lib, self, nixpkgs }:
+    outputs = { self, nixpkgs }:
         let
             pname = "iosevka-term-ss08-nerd-font";
             version = "v1.0.0";
-        in 
-            {
+        in {
             inherit pname version;
             packages.x86_64-linux.default = nixpkgs.lib.mkDerivation {
                 src = builtins.fetchTarball {
@@ -14,9 +13,8 @@
                 };
 
                 installPhase = ''
-        mkdir -p $out/share/fonts/truetype/
-        cp -r $src/* $out/share/fonts/truetype/
-        '';
+                    install -D $src/**/*.ttc $out/share/fonts/truetype/${pname}/
+                '';
 
                 meta = with nixpkgs.lib; {
                     description = "Nerd-font patched Iosevka Term SS08";
