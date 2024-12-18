@@ -6,7 +6,7 @@
             version = "v1.0.0";
         in {
             inherit pname version;
-            default = nixpkgs.lib.mkDerivation {
+            defaultPackage.x86_64-linux = nixpkgs.lib.mkDerivation {
                 src = builtins.fetchTarball {
                     url = "https://github.com/tstelzer/iosevka-term-ss08-patched/releases/download/${version}/Iosevka-Term-SS08-${version}.zip.tar.gz";
                     sha256 = "04lzjsf804ffpghlhrvncx2bcqz00i208hga1qf62xxak7pp8261";
