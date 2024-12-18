@@ -2,18 +2,19 @@
     description = "Iosevka Term SS08 Nerd Font";
     outputs = { self, nixpkgs }:
         let
-            pname = "iosevka-term-ss08-nerd-font";
+            name = "iosevka-term-ss08-nerd-font";
             version = "v1.0.1";
+            pkgs = nixpkgs.legacyPackages.x86_64-linux;
         in {
-            inherit pname version;
-            default = nixpkgs.lib.mkDerivation {
-                src = builtins.fetchZip {
+            packages.x86_64-linux.default = pkgs.stdenv.mkDerivation {
+                inherit name version;
+                src = pkgs.fetchzip {
                     url = "https://github.com/tstelzer/iosevka-term-ss08-patched/releases/download/${version}/Iosevka-Term-SS08-${version}.zip";
-                    sha256 = nixpkgs.lib.fakeSha256;
+                    sha256 = "sha256-jwolBS3EXXzc44gPLP4R59b5qgPUjBOhTmQuFssJllI=";
                 };
 
                 installPhase = ''
-                    install -m444 -Dt $out/share/fonts/truetype/${pname} $src/**/*.ttf
+                    cp -r $src/* $out/
                 '';
 
                 meta = with nixpkgs.lib; {

@@ -2,11 +2,22 @@
 
 let
   pname = "Iosevka-Term-SS08";
-  version = "v1.0.1";
+  version = "v1.0.2";
   iosevkaVersion = "32.2.1";
   iosevkaFontName = "PkgTTF-IosevkaTermSS08";
   nerdFontVersion = "v3.3.0";
-  fontVariants = [ "Regular" ];
+  fontVariants = [
+      "Bold"
+      "BoldItalic"
+      "Medium"
+      "MediumItalic"
+      "Regular"
+      "Italic"
+      "Light"
+      "LightItalic"
+      "Thin"
+      "ThinItalic"
+  ];
 in stdenv.mkDerivation rec {
   inherit pname version;
 
