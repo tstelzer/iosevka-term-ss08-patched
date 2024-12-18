@@ -7,13 +7,13 @@
         in {
             inherit pname version;
             defaultPackage.x86_64-linux = nixpkgs.lib.mkDerivation {
-                src = builtins.fetchTarball {
-                    url = "https://github.com/tstelzer/iosevka-term-ss08-patched/releases/download/${version}/Iosevka-Term-SS08-${version}.zip.tar.gz";
+                src = builtins.fetchZip {
+                    url = "https://github.com/tstelzer/iosevka-term-ss08-patched/releases/download/${version}/Iosevka-Term-SS08-${version}.zip";
                     sha256 = "04lzjsf804ffpghlhrvncx2bcqz00i208hga1qf62xxak7pp8261";
                 };
 
                 installPhase = ''
-                    install -D $src/**/*.ttc $out/share/fonts/truetype/${pname}/
+                    install -m444 -Dt $out/share/fonts/truetype/Iosevka-Term-SS08 *.ttc
                 '';
 
                 meta = with nixpkgs.lib; {
