@@ -6,7 +6,7 @@
       pname = "iosevka-term-ss08-nerd-font";
       version = "v1.0.0";
       src = builtins.fetchTarball {
-        url = "https://github.com/tstelzer/iosevka-term-ss08-patched/releases/download/${version}/release.tar.gz";
+        url = "https://github.com/tstelzer/iosevka-term-ss08-patched/releases/download/${version}/Iosevka-Term-SS08-${version}.zip.tar.gz";
         sha256 = lib.fakeSha256;
       };
 
