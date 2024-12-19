@@ -12,7 +12,7 @@
             # ... other bindings
             specialArgs = {
                 inherit inputs;
-                iosevka-term-ss08-patched = iosevka-term-ss08-patched;
+                iosevka-term-ss08-patched = iosevka-term-ss08-patched.default;
             };
         in {
                 nixosConfigurations = {
