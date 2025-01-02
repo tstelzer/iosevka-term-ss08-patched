@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'

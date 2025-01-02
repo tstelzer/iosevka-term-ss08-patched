@@ -1,24 +1,34 @@
-{ stdenv, fetchzip, fetchFromGitHub, lib, fontforge, python3, zip }:
+{
+  stdenv,
+  fetchzip,
+  fetchFromGitHub,
+  lib,
+  fontforge,
+  python3,
+  zip,
+  nerd-font-patcher,
+}:
 
 let
   pname = "Iosevka-Term-SS08";
-  version = "v1.0.2";
-  iosevkaVersion = "32.2.1";
+  version = "v1.0.3";
+  iosevkaVersion = "32.3.1";
   iosevkaFontName = "PkgTTF-IosevkaTermSS08";
-  nerdFontVersion = "v3.3.0";
+  # nerdFontVersion = "v3.3.0";
   fontVariants = [
-      "Bold"
-      "BoldItalic"
-      "Medium"
-      "MediumItalic"
-      "Regular"
-      "Italic"
-      "Light"
-      "LightItalic"
-      "Thin"
-      "ThinItalic"
+    "Bold"
+    "BoldItalic"
+    "Medium"
+    "MediumItalic"
+    "Regular"
+    "Italic"
+    "Light"
+    "LightItalic"
+    "Thin"
+    "ThinItalic"
   ];
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   inherit pname version;
 
   src = fetchzip {
@@ -33,40 +43,41 @@ in stdenv.mkDerivation rec {
   #   url = "https://github.com/ryanoasis/nerd-fonts/archive/${nerdFontVersion}.tar.gz";
   #   sha256 = "sha256-oGcczfkPSB2JjwCTOuH9ewo2XLhmBBPOxI9iwB5NkmI=";
   # };
-  nerdFontsRepo = /home/ts/dev/code/ryanoasis/nerd-fonts;
+  # nerdFontsRepo = /home/ts/dev/code/ryanoasis/nerd-fonts;
 
-  buildInputs = [ fontforge python3 zip ];
+  nativeBuildInputs = [
+    nerd-font-patcher
+    fontforge
+    zip
+    python3
+  ];
 
   buildPhase = ''
-    mkdir -p $TMPDIR/patched
-    prefix=IosevkaTermSS08
+    runHook preBuild
 
-    cp $nerdFontsRepo/font-patcher $TMPDIR/font-patcher
-    sed -i "1 s|^.*$|#!${python3}/bin/python3|" $TMPDIR/font-patcher
-    chmod +x $TMPDIR/font-patcher
+    mkdir -p $TMPDIR/patched
+    chmod -R u+rwX $TMPDIR/patched
+    prefix="IosevkaTermSS08"
 
     for variant in ${lib.concatStringsSep " " fontVariants}; do
         file_name="$prefix-$variant.ttf"
         input_file="$TMPDIR/$file_name"
         patched_file="$TMPDIR/patched/$file_name"
-
         cp "$src/$file_name" "$input_file"
 
-        if [ -f "$input_file" ]; then
-            $TMPDIR/font-patcher \
-              --glyphdir $nerdFontsRepo/src/glyphs \
-              --complete \
-              --outputdir $TMPDIR/patched \
-              --makegroups 0 \
-              "$input_file"
-        else
-            echo "Missing font file for variant: $variant"
-            exit 1
-        fi
+        nerd-font-patcher \
+            --complete \
+            --makegroups 4 \
+            --no-progressbars \
+            --quiet \
+            --outputdir $TMPDIR/patched \
+            "$input_file"
     done
 
     mkdir -p $out/release/share/fonts/truetype/${pname}
     mv $TMPDIR/patched/* $out/release/share/fonts/truetype/${pname}/
+
+    runHook postBuild
   '';
 
   installPhase = ''
