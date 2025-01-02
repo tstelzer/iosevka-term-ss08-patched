@@ -11,7 +11,7 @@
 
 let
   pname = "Iosevka-Term-SS08";
-  version = "v1.0.3";
+  version = "v1.0.5";
   iosevkaVersion = "32.3.1";
   iosevkaFontName = "PkgTTF-IosevkaTermSS08";
   # nerdFontVersion = "v3.3.0";
@@ -69,6 +69,8 @@ stdenv.mkDerivation rec {
             --complete \
             --makegroups 4 \
             --no-progressbars \
+            --mono \
+            --careful \
             --quiet \
             --outputdir $TMPDIR/patched \
             "$input_file"
