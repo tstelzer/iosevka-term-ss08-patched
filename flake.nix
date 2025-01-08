@@ -21,7 +21,7 @@
         inherit name version;
         src = pkgs.fetchzip {
           url = "https://github.com/tstelzer/iosevka-term-ss08-patched/releases/download/${version}/Iosevka-Term-SS08-${version}.zip";
-          sha256 = "sha256-VUWaLe/HTao2g6zXDRlYqpR0BpgbudPstLTGxiyRoTE=";
+          sha256 = "sha256-jA25D8SxJbklmEMy+ktxudSNz5n/rxmBaakuXfuJMWE=";
         };
 
         installPhase = ''
